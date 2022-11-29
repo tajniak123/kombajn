@@ -1,4 +1,5 @@
 import time
+import threading
 
 
 class Controller:
@@ -6,7 +7,11 @@ class Controller:
         self.__model = model
         self.__view = view
 
-#        self.initialise_downloading_data()
+        main_loop = threading.Thread(target=self.initialise_downloading_data)
+        main_loop.daemon = True
+        main_loop.start()
+
+        self.__view.run_view()
 
     @property
     def model(self):

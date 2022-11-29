@@ -10,6 +10,7 @@ from strings import (RESULTS_NOT_FOUND,
 
 from colorama import Fore
 from colorama import Style
+from tkinter import Tk, Listbox, Label, BOTH, LEFT, RIGHT, Y, W, LabelFrame
 
 
 class View:
@@ -21,6 +22,24 @@ class View:
             SEVERITY_LOW: Fore.GREEN,
             None: Fore.MAGENTA
         }
+        self.__root = Tk()
+        self.__root.geometry("300x250")
+
+        self.__listbox = Listbox(self.__root,
+                           height = 25,
+                           width = 15,
+                           activestyle = 'dotbox')
+
+        self.__frame = LabelFrame(self.__root, text="dane")
+
+        self.__label = Label(self.__frame, text="Elo")
+
+        self.__listbox.pack(fill=Y, expand=True, side=LEFT, anchor=W)
+        self.__frame.pack(fill=BOTH, expand=True, side=RIGHT)
+        self.__label.pack(fill=BOTH, expand=True)
+
+    def run_view(self):
+        self.__root.mainloop()
 
     def print_title(self, item_id, name):
         print(f'{item_id}. {name}')
@@ -35,15 +54,26 @@ class View:
         if len(cve_list) == 0:
             print(f'{Fore.RED}{RESULTS_NOT_FOUND}{Style.RESET_ALL}')
         else:
+            i = 1
             for cve in cve_list:
+                #tu na razie ten dzial dodawacz, ale trzeba zrobic tego z dolu
+                self.__listbox.insert(i, cve.id)
                 id_s = f'{Fore.BLUE}{cve.id}{Style.RESET_ALL}'
                 score = cve.score[1]
                 vernulability_lvl = cve.score[2]
                 score_s = f'{SCORE} = {score}'
                 severity_color = self.__severity_to_colors_converter[vernulability_lvl]
                 scores_s = f'{SEVERITY} = {severity_color}{vernulability_lvl}{Style.RESET_ALL}'
-
+                i += 1
                 print(f'{id_s} {score_s}\t\t{scores_s}')
 
         self.print_seconds(downloading_time)
         self.print_line()
+
+    def add_cves(self, app_name, cve_list):
+        if len(cve_list) > 0:
+            i = 1
+            for cve in cve_list:
+                self.__listbox.insert(i, cve.id)
+
+                i += 1
