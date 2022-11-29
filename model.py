@@ -11,6 +11,7 @@ class Model:
 
         # os.system('python -m pip install --upgrade pip setuptools virtualenv')
         #os.system('pip install pyqt5')
+        #SZABAraaa
 
         start_time = time.time()
 

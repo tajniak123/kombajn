@@ -7,3 +7,4 @@ if __name__ == "__main__":
     view = View(model)
     controller = Controller(model, view)
 
+    #TESTOWY WPIS
