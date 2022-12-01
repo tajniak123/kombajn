@@ -11,10 +11,14 @@ from strings import (RESULTS_NOT_FOUND,
 from colorama import Fore
 from colorama import Style
 from tkinter import Tk, Listbox, Label, BOTH, LEFT, RIGHT, Y, W, LabelFrame
+from values import DEFAULT_APP_HEIGHT, DEFAULT_APP_WIDTH
 
 
 class View:
     def __init__(self):
+        self.__window_width = DEFAULT_APP_WIDTH
+        self.__window_height = DEFAULT_APP_HEIGHT
+        self.__window_size = f'{self.__window_width}x{self.__window_height}'
         self.__severity_to_colors_converter = {
             SEVERITY_CRITICAL: Fore.LIGHTRED_EX,
             SEVERITY_HIGH: Fore.RED,
@@ -23,7 +27,7 @@ class View:
             None: Fore.MAGENTA
         }
         self.__root = Tk()
-        self.__root.geometry("300x250")
+        self.__root.geometry(self.__window_size)
 
         self.__listbox = Listbox(self.__root,
                            height = 25,
