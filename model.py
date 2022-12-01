@@ -1,7 +1,7 @@
 import pandas
 import time
 from nvdlib import searchCVE
-from strings import DATABASE_FILE_NAME, NIST_KEY
+from strings import DATABASE_FILE_NAME, NIST_KEY, KEY_VALUES, KEY_TIME
 
 
 class Model:
@@ -19,5 +19,5 @@ class Model:
         start_time = time.time()
         answer_from_nist = searchCVE(keywordSearch=name, key=NIST_KEY)
         end_time = time.time()
-        return {"time": (end_time-start_time),
-                'values': answer_from_nist}
+        return {KEY_TIME: (end_time-start_time),
+                KEY_VALUES: answer_from_nist}

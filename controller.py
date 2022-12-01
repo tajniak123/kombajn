@@ -1,5 +1,6 @@
 import time
 import threading
+from strings import KEY_VALUES, KEY_TIME
 
 
 class Controller:
@@ -31,7 +32,7 @@ class Controller:
             self.__view.print_title(i+1, app_name)
 
             searching_result = self.__model.download_CVE_from_NIST(app_name)
-            self.__view.print_CVE(searching_result.get("values"), searching_result["time"])
+            self.__view.print_CVE(searching_result.get(KEY_VALUES), searching_result.get(KEY_TIME))
 
         end_time = time.time()
         self.__view.print_seconds(end_time-start_time)
