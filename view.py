@@ -10,12 +10,14 @@ from strings import (RESULTS_NOT_FOUND,
 
 from colorama import Fore
 from colorama import Style
-from tkinter import Tk, Listbox, Label, BOTH, LEFT, RIGHT, Y, W, LabelFrame
+from tkinter import Tk, Listbox, Label, BOTH, LEFT, RIGHT, Y, W, LabelFrame, Button
 from values import DEFAULT_APP_HEIGHT, DEFAULT_APP_WIDTH
 
 
 class View:
-    def __init__(self):
+    def __init__(self, model):
+        self.__model = model
+        self.__download_function = None
         self.__window_width = DEFAULT_APP_WIDTH
         self.__window_height = DEFAULT_APP_HEIGHT
         self.__window_size = f'{self.__window_width}x{self.__window_height}'
@@ -29,19 +31,50 @@ class View:
         }
         self.__root = Tk()
         self.__root.geometry(self.__window_size)
+        self.__download_button = Button(self.__root,
+                                        text="Pobierz")
+
+        #self.__update_values_button = Button(self.__root,
+        #                                    text="Wyswietl",
+        #                                    command=self.__show_values)
 
         self.__listbox = Listbox(self.__root,
                            height = 25,
                            width = 15,
                            activestyle = 'dotbox')
 
-        self.__frame = LabelFrame(self.__root, text="dane")
+        self.__frame = LabelFrame(self.__root, text="CVE")
 
-        self.__label = Label(self.__frame, text="Elo")
+        self.__severity_lab = Label(self.__frame, text="Severity")
+        self.__score_lab = Label(self.__frame, text="Score")
+        self.__description_lab = Label(self.__frame, text="Descriptions")
+
+        self.__severity_value_lab = Label(self.__frame, text="Value of Severity")
+        self.__score_value_lab = Label(self.__frame, text="Value of Score")
+        self.__description_value_lab = Label(self.__frame, text="Value of Descriptions")
+
+        self.__download_button.pack()
+       # self.__update_values_button.pack()
 
         self.__listbox.pack(fill=Y, expand=True, side=LEFT, anchor=W)
         self.__frame.pack(fill=BOTH, expand=True, side=RIGHT)
-        self.__label.pack(fill=BOTH, expand=True)
+
+        self.__severity_lab.pack(fill=BOTH, expand=True)
+        self.__score_lab.pack(fill=BOTH, expand=True)
+        self.__description_lab.pack(fill=BOTH, expand=True)
+
+        self.__severity_value_lab.pack(fill=BOTH, expand=True)
+        self.__score_value_lab.pack(fill=BOTH, expand=True)
+        self.__description_value_lab.pack(fill=BOTH, expand=True)
+
+    def set_download_function(self, function):
+        self.__download_button.config(command=function)
+        self.__score_value_lab.config(text="akcja")
+
+    def update_values(self, data):
+        self.__score_value_lab.configure(text=data)
+        self.__severity_value_lab.configure(text=data)
+        self.__description_value_lab.configure(text=data)
 
     def run_view(self):
         self.__root.mainloop()
@@ -82,14 +115,13 @@ class View:
             i = 1
             for cve in cve_list:
                 self.__listbox.insert(i, cve.id)
-                values[app_name] = {
+                self.__values[app_name] = {
                         cve.id:
                         {
                             "score": cve.score[1],
-                            "severity" = cve.score[2],
-                            "descriptions" = cve.descriptions[0].value,
+                            "severity": cve.score[2],
+                            "descriptions": cve.descriptions[0].value,
                         }
                     }
 
-
-                i += 1
+                i += 0

@@ -4,5 +4,5 @@ from model import Model
 
 if __name__ == "__main__":
     model = Model()
-    view = View()
+    view = View(model)
     controller = Controller(model, view)
