@@ -19,6 +19,7 @@ class View:
         self.__window_width = DEFAULT_APP_WIDTH
         self.__window_height = DEFAULT_APP_HEIGHT
         self.__window_size = f'{self.__window_width}x{self.__window_height}'
+        self.__values = {}
         self.__severity_to_colors_converter = {
             SEVERITY_CRITICAL: Fore.LIGHTRED_EX,
             SEVERITY_HIGH: Fore.RED,
@@ -54,12 +55,13 @@ class View:
     def print_seconds(self, time):
         print(f'--- %s {SECONDS} ---' % round(time, 2))
 
-    def print_CVE(self, cve_list, downloading_time):
+    def print_CVE(self, cve_list, downloading_time, app_name):
         if len(cve_list) == 0:
             print(f'{Fore.RED}{RESULTS_NOT_FOUND}{Style.RESET_ALL}')
         else:
             i = 1
             for cve in cve_list:
+                print(cve)
                 #tu na razie ten dzial dodawacz, ale trzeba zrobic tego z dolu
                 self.__listbox.insert(i, cve.id)
                 id_s = f'{Fore.BLUE}{cve.id}{Style.RESET_ALL}'
@@ -70,6 +72,7 @@ class View:
                 scores_s = f'{SEVERITY} = {severity_color}{vernulability_lvl}{Style.RESET_ALL}'
                 i += 1
                 print(f'{id_s} {score_s}\t\t{scores_s}')
+                print(f'{(cve.descriptions[0].value)}')
 
         self.print_seconds(downloading_time)
         self.print_line()
@@ -79,5 +82,14 @@ class View:
             i = 1
             for cve in cve_list:
                 self.__listbox.insert(i, cve.id)
+                values[app_name] = {
+                        cve.id:
+                        {
+                            "score": cve.score[1],
+                            "severity" = cve.score[2],
+                            "descriptions" = cve.descriptions[0].value,
+                        }
+                    }
+
 
                 i += 1
