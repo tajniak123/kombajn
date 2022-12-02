@@ -26,7 +26,12 @@ from tkinter import (
         HORIZONTAL,
         Frame
         )
-from values import DEFAULT_APP_HEIGHT, DEFAULT_APP_WIDTH
+from values import (
+        DEFAULT_APP_HEIGHT,
+        DEFAULT_APP_WIDTH,
+        DETAIL_FRAME_HEIGHT,
+        DETAIL_FRAME_WIDTH,
+        )
 
 
 class View:
@@ -47,6 +52,7 @@ class View:
         }
         self.__root = Tk()
         self.__root.geometry(self.__window_size)
+        self.__root.resizable(False, False)
 
         self.__top_frame = Frame(self.__root)
         self.__download_button = Button(
@@ -64,26 +70,39 @@ class View:
         self.__downloading_pb = ttk.Progressbar(
                 self.__download_frame,
                 orient=HORIZONTAL,
-                length=DEFAULT_APP_WIDTH-2, mode='determinate',
+                length=DEFAULT_APP_WIDTH-2,
+                mode='determinate',
                 )
 
         self.__left_frame = Frame(self.__root)
         self.__listbox = Listbox(self.__left_frame, activestyle='dotbox')
         self.__listbox.bind("<<ListboxSelect>>", self.on_click_listbox_item)
 
-        self.__details_frame = LabelFrame(self.__root, text="CVE")
+        self.__details_frame = LabelFrame(
+                self.__root,
+                text="CVE",
+                width=DETAIL_FRAME_WIDTH,
+                height=DETAIL_FRAME_HEIGHT,
+                )
+
         self.__severity_frame = Frame(self.__details_frame)
         self.__severity_lab = Label(self.__severity_frame, text=SEVERITY)
-        self.__severity_value_lab = Label(self.__severity_frame, text="Value of Severity")
+        self.__severity_value_lab = Label(self.__severity_frame)
         self.__score_frame = Frame(self.__details_frame)
         self.__score_lab = Label(self.__score_frame, text=SCORE)
-        self.__score_value_lab = Label(self.__score_frame, text="Value of Score")
+        self.__score_value_lab = Label(self.__score_frame)
 
         self.__description_frame = Frame(self.__details_frame)
-        self.__description_lab = Label(self.__description_frame, text=DESCRIPTIONS)
-        self.__description_value_lab = Label(self.__description_frame, text="Value of Descriptions")
-        self.__description_value_lab.bind('<Configure>',
-                lambda e: self.__description_value_lab.config(wraplength=self.__description_value_lab.winfo_width()))
+        self.__description_lab = Label(
+                self.__description_frame,
+                text=DESCRIPTIONS
+                )
+        self.__description_value_lab = Label(
+                self.__description_frame,
+                width=DETAIL_FRAME_WIDTH,
+                wraplength=DETAIL_FRAME_WIDTH,
+                text="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.Value of Descriptions"
+                )
 
         self.__pack_items()
 
@@ -94,22 +113,30 @@ class View:
         self.__left_frame.pack(fill=Y, expand=True, side=LEFT, anchor=W)
         self.__listbox.pack(fill=Y, expand=True)
 
-        self.__details_frame.pack(fill=BOTH, expand=True, side=RIGHT)
-        self.__description_frame.pack(side=BOTTOM, ipadx=4, ipady=4)
+        self.__details_frame.pack(fill=BOTH, side=RIGHT)
+        self.__description_frame.pack(ipadx=4, ipady=4)
         self.__description_lab.pack()
         self.__description_value_lab.pack()
-        self.__severity_frame.pack(side=RIGHT, ipadx=4, ipady=4)
+        self.__severity_frame.pack(side=RIGHT, anchor=N, ipadx=4, ipady=4)
         self.__severity_lab.pack()
         self.__severity_value_lab.pack()
-        self.__score_frame.pack(side=LEFT, expand=True)
+        self.__score_frame.pack(side=LEFT, anchor=N, ipadx=4, ipady=4)
         self.__score_lab.pack()
         self.__score_value_lab.pack()
 
     def switch_progressbar_visibility(self, visible):
         if visible:
             self.__download_frame.pack()
-            self.__current_app_downloading_label.pack(side=LEFT, anchor=W, ipadx=4)
-            self.__position_downloading_label.pack(side=RIGHT, anchor=E, ipadx=4)
+            self.__current_app_downloading_label.pack(
+                    side=LEFT,
+                    anchor=W,
+                    ipadx=4,
+                    )
+            self.__position_downloading_label.pack(
+                    side=RIGHT,
+                    anchor=E,
+                    ipadx=4
+                    )
             self.__downloading_pb.pack()
             self.__stop_dowload_button.pack()
             self.__download_button.forget()
@@ -154,7 +181,8 @@ class View:
         self.__details_frame.configure(text=item.app_name)
         self.__score_value_lab.configure(text=item.item.score[1])
         self.__severity_value_lab.configure(text=item.item.score[2])
-        self.__description_value_lab.configure(text=item.item.descriptions[0].value)
+        self.__description_value_lab.configure(
+                text=item.item.descriptions[0].value)
 
     def run_view(self):
         self.__root.mainloop()
