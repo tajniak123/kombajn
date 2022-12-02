@@ -1,4 +1,5 @@
 from strings import (
+                     FILE_NOT_FOUND,
                      DATABASE_FILE_NAME,
                      START_DOWNLOADING,
                      STOP_DOWNLOADING,
@@ -80,7 +81,6 @@ class View:
 
         self.__details_frame = LabelFrame(
                 self.__root,
-                text="CVE",
                 width=DETAIL_FRAME_WIDTH,
                 height=DETAIL_FRAME_HEIGHT,
                 )
@@ -123,8 +123,8 @@ class View:
         self.__score_lab.pack()
         self.__score_value_lab.pack()
 
-    def switch_progressbar_visibility(self, visible):
-        if visible:
+    def switch_progressbar_visibility(self, is_visible):
+        if is_visible:
             self.__download_frame.pack()
             self.__current_app_downloading_label.pack(
                     side=LEFT,
@@ -145,7 +145,10 @@ class View:
             self.__download_button.pack()
 
     def error_message_box(self):
-        messagebox.showerror(title="Brak bazy plikow", message=f'Nie znaleziono pliku {DATABASE_FILE_NAME}')
+        messagebox.showerror(
+                title=FILE_NOT_FOUND,
+                message=f'{FILE_NOT_FOUND} {DATABASE_FILE_NAME}'
+                )
 
     def on_click_listbox_item(self, event):
         selection = event.widget.curselection()
