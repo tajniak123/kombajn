@@ -18,7 +18,7 @@ from tkinter import (
         BOTH,
         LEFT,
         RIGHT,
-        Y, W, N, E,
+        Y, W, N, E, S,
         LabelFrame,
         Button,
         ttk,
@@ -116,10 +116,10 @@ class View:
         self.__description_frame.pack(ipadx=4, ipady=4)
         self.__description_lab.pack()
         self.__description_value_lab.pack()
-        self.__severity_frame.pack(side=RIGHT, anchor=N, ipadx=4, ipady=4)
+        self.__severity_frame.pack(side=RIGHT, anchor=S, ipadx=4, ipady=4)
         self.__severity_lab.pack()
         self.__severity_value_lab.pack()
-        self.__score_frame.pack(side=LEFT, anchor=N, ipadx=4, ipady=4)
+        self.__score_frame.pack(side=LEFT, anchor=S, ipadx=4, ipady=4)
         self.__score_lab.pack()
         self.__score_value_lab.pack()
 
