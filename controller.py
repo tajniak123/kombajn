@@ -35,20 +35,24 @@ class Controller:
         self.__is_downloading_in_progress = True
         self.__view.switch_progressbar_visibility(True)
         start_time = time.time()
-        for i in range(len(self.__model.database)):
-            if self.__is_downloading_in_progress:
-                app_name = self.__model.database.iloc[i, 0]
-                self.__view.update_download_notifications(app_name, f'{i}/{len(self.__model.database)}')
-                searching_result = self.__model.download_CVE_from_NIST(app_name)
 
-                for cve in searching_result[KEY_VALUES]:
-                    item = ItemModel(item_id=len(self.__model.values), app_name=app_name, item=cve)
-                    self.__model.values.append(item)
-                    self.__view.add_item_to_list(item.item.id)
+        if self.__model.database is None:
+            self.__view.error_message_box()
+        else:
+            for i in range(len(self.__model.database)):
+                if self.__is_downloading_in_progress:
+                    app_name = self.__model.database.iloc[i, 0]
+                    self.__view.update_download_notifications(app_name, f'{i}/{len(self.__model.database)}')
+                    searching_result = self.__model.download_CVE_from_NIST(app_name)
 
-                self.__view.update_progressbar()
-            else:
-                break
+                    for cve in searching_result[KEY_VALUES]:
+                        item = ItemModel(item_id=len(self.__model.values), app_name=app_name, item=cve)
+                        self.__model.values.append(item)
+                        self.__view.add_item_to_list(item.item.id)
+
+                    self.__view.update_progressbar()
+                else:
+                    break
 
         end_time = time.time()
         self.__view.switch_progressbar_visibility(False)

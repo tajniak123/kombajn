@@ -1,4 +1,5 @@
-from strings import (RESULTS_NOT_FOUND,
+from strings import (
+                     DATABASE_FILE_NAME,
                      START_DOWNLOADING,
                      STOP_DOWNLOADING,
                      DESCRIPTIONS,
@@ -6,7 +7,6 @@ from strings import (RESULTS_NOT_FOUND,
                      SEVERITY_HIGH,
                      SEVERITY_MEDIUM,
                      SEVERITY_LOW,
-                     SECONDS,
                      SEVERITY,
                      SCORE
                      )
@@ -18,13 +18,13 @@ from tkinter import (
         BOTH,
         LEFT,
         RIGHT,
-        BOTTOM,
-        Y, W, N, S, E,
+        Y, W, N, E,
         LabelFrame,
         Button,
         ttk,
         HORIZONTAL,
-        Frame
+        Frame,
+        messagebox
         )
 from values import (
         DEFAULT_APP_HEIGHT,
@@ -101,7 +101,6 @@ class View:
                 self.__description_frame,
                 width=DETAIL_FRAME_WIDTH,
                 wraplength=DETAIL_FRAME_WIDTH,
-                text="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.Value of Descriptions"
                 )
 
         self.__pack_items()
@@ -144,6 +143,9 @@ class View:
             self.__download_frame.forget()
             self.__stop_dowload_button.forget()
             self.__download_button.pack()
+
+    def error_message_box(self):
+        messagebox.showerror(title="Brak bazy plikow", message=f'Nie znaleziono pliku {DATABASE_FILE_NAME}')
 
     def on_click_listbox_item(self, event):
         selection = event.widget.curselection()

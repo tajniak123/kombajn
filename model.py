@@ -7,7 +7,11 @@ from strings import DATABASE_FILE_NAME, NIST_KEY
 
 class Model:
     def __init__(self):
-        self.__database = pandas.read_excel(DATABASE_FILE_NAME)
+        self.__database = None
+        try:
+            self.__database = pandas.read_excel(DATABASE_FILE_NAME)
+        except FileNotFoundError:
+            print(f'Nie znaleziono pliku {DATABASE_FILE_NAME}.')
         self.__values = []
 
     @property
