@@ -7,7 +7,7 @@ from strings import DATABASE_FILE_NAME, NIST_KEY
 
 class Model:
     def __init__(self):
-        self.__database = self.get_database()
+        self.__database = pandas.read_excel(DATABASE_FILE_NAME)
         self.__values = {}
 
     @property
@@ -17,9 +17,6 @@ class Model:
     @property
     def values(self):
         return self.__values
-
-    def get_database(self):
-        return pandas.read_excel(DATABASE_FILE_NAME, usecols=[-1])
 
     def download_CVE_from_NIST(self, name):
         start_time = time.time()
@@ -32,7 +29,6 @@ class Model:
         start_time = time.time()
         print(self.__database)
         for i in range(len(self.__database)):
-            print("gogogo")
             app_name = self.__database.iloc[i, 0]
             searching_result = self.download_CVE_from_NIST(app_name)
             self.__values[app_name].append(searching_result)
