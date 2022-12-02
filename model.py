@@ -25,17 +25,3 @@ class Model:
         return {KEY_TIME: (end_time-start_time),
                 KEY_VALUES: answer_from_nist}
 
-    def initialise_downloading_data(self):
-        start_time = time.time()
-        print(self.__database)
-        for i in range(len(self.__database)):
-            app_name = self.__database.iloc[i, 0]
-            searching_result = self.download_CVE_from_NIST(app_name)
-            if self.__values.get(app_name) is None:
-                self.__values[app_name] = []
-                self.__values.append(searching_result)
-            else:
-                self.__values.append(searching_result)
-
-        end_time = time.time()
-        print(end_time-start_time)
