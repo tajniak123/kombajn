@@ -1,5 +1,6 @@
 RESULTS_NOT_FOUND = 'Nie znaleziono wyników.'
 DATABASE_FILE_NAME = 'Zeszyt1.xlsx'
+DESCRIPTIONS = 'descritions'
 NIST_KEY = '2b1f6592-3b28-43f6-819e-8b0281c3dc1c'
 NIST_KEYWORD_SEARCH = 'oneconnect'
 SEVERITY_CRITICAL = 'CRITICAL'
