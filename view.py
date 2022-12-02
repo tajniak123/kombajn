@@ -42,6 +42,7 @@ class View:
                            height = 25,
                            width = 15,
                            activestyle = 'dotbox')
+        self.__listbox.bind("<<ListboxSelect>>", self.callback)
 
         self.__frame = LabelFrame(self.__root, text="CVE")
 
@@ -67,64 +68,23 @@ class View:
         self.__score_value_lab.pack(fill=BOTH, expand=True)
         self.__description_value_lab.pack(fill=BOTH, expand=True)
 
+    def callback(self, event):
+        selection = event.widget.curselection()
+        if selection:
+            index = selection[0]
+            self.update_values(index)
+
     def add_item_to_list(self, CVE_name):
         self.__listbox.insert(self.__listbox.size(), CVE_name)
 
     def set_download_function(self, function):
         self.__download_button.config(command=function)
-        self.__score_value_lab.config(text="akcja")
 
-    def update_values(self, data):
-        self.__score_value_lab.configure(text=data)
-        self.__severity_value_lab.configure(text=data)
-        self.__description_value_lab.configure(text=data)
+    def update_values(self, index):
+        item = self.__model.values[index]
+        self.__score_value_lab.configure(text=item.item.score[1])
+        self.__severity_value_lab.configure(text=item.item.score[2])
+        self.__description_value_lab.configure(text=item.item.descriptions[0].value)
 
     def run_view(self):
         self.__root.mainloop()
-
-    def print_title(self, item_id, name):
-        print(f'{item_id}. {name}')
-
-    def print_line(self):
-        print(50 * "=")
-
-    def print_seconds(self, time):
-        print(f'--- %s {SECONDS} ---' % round(time, 2))
-
-    def print_CVE(self, cve_list, downloading_time, app_name):
-        if len(cve_list) == 0:
-            print(f'{Fore.RED}{RESULTS_NOT_FOUND}{Style.RESET_ALL}')
-        else:
-            i = 1
-            for cve in cve_list:
-                print(cve)
-                #tu na razie ten dzial dodawacz, ale trzeba zrobic tego z dolu
-                self.__listbox.insert(i, cve.id)
-                id_s = f'{Fore.BLUE}{cve.id}{Style.RESET_ALL}'
-                score = cve.score[1]
-                vernulability_lvl = cve.score[2]
-                score_s = f'{SCORE} = {score}'
-                severity_color = self.__severity_to_colors_converter[vernulability_lvl]
-                scores_s = f'{SEVERITY} = {severity_color}{vernulability_lvl}{Style.RESET_ALL}'
-                i += 1
-                print(f'{id_s} {score_s}\t\t{scores_s}')
-                print(f'{(cve.descriptions[0].value)}')
-
-        self.print_seconds(downloading_time)
-        self.print_line()
-
-    def add_cves(self, app_name, cve_list):
-        if len(cve_list) > 0:
-            i = 1
-            for cve in cve_list:
-                self.__listbox.insert(i, cve.id)
-                self.__values[app_name] = {
-                        cve.id:
-                        {
-                            "score": cve.score[1],
-                            "severity": cve.score[2],
-                            "descriptions": cve.descriptions[0].value,
-                        }
-                    }
-
-                i += 0
