@@ -31,7 +31,11 @@ class Model:
         for i in range(len(self.__database)):
             app_name = self.__database.iloc[i, 0]
             searching_result = self.download_CVE_from_NIST(app_name)
-            self.__values[app_name].append(searching_result)
+            if self.__values.get(app_name) is None:
+                self.__values[app_name] = []
+                self.__values.append(searching_result)
+            else:
+                self.__values.append(searching_result)
 
         end_time = time.time()
         print(end_time-start_time)
