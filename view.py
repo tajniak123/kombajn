@@ -1,4 +1,6 @@
 from strings import (RESULTS_NOT_FOUND,
+                     START_DOWNLOADING,
+                     STOP_DOWNLOADING,
                      DESCRIPTIONS,
                      SEVERITY_CRITICAL,
                      SEVERITY_HIGH,
@@ -47,12 +49,18 @@ class View:
         self.__root.geometry(self.__window_size)
 
         self.__top_frame = Frame(self.__root)
-        self.__download_button = Button(self.__top_frame, text="Pobierz")
-        self.__stop_dowload_button = Button(self.__top_frame, text="Przerwij")
+        self.__download_button = Button(
+                self.__top_frame,
+                text=START_DOWNLOADING
+                )
+        self.__stop_dowload_button = Button(
+                self.__top_frame,
+                text=STOP_DOWNLOADING
+                )
 
         self.__download_frame = Frame(self.__top_frame)
-        self.__current_app_downloading_label = Label(self.__download_frame, text="app name")
-        self.__position_downloading_label = Label(self.__download_frame, text="2/200")
+        self.__current_app_downloading_label = Label(self.__download_frame)
+        self.__position_downloading_label = Label(self.__download_frame)
         self.__downloading_pb = ttk.Progressbar(
                 self.__download_frame,
                 orient=HORIZONTAL,
