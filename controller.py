@@ -25,9 +25,11 @@ class Controller:
         main_loop.start()
 
     def initialise_downloading_data(self):
+        self.__view.set_visible_downloading_details(True)
         start_time = time.time()
         for i in range(len(self.__model.database)):
             app_name = self.__model.database.iloc[i, 0]
+            self.__view.update_download_notifications(app_name, f'{i}/{len(self.__model.database)}')
             searching_result = self.__model.download_CVE_from_NIST(app_name)
 
             for cve in searching_result[KEY_VALUES]:
@@ -35,5 +37,8 @@ class Controller:
                 self.__model.values.append(item)
                 self.__view.add_item_to_list(item.item.id)
 
+            self.__view.update_progressbar()
+
         end_time = time.time()
+        self.__view.set_visible_downloading_details(False)
         print(end_time-start_time)
