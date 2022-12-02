@@ -48,6 +48,7 @@ class View:
 
         self.__top_frame = Frame(self.__root)
         self.__download_button = Button(self.__top_frame, text="Pobierz")
+        self.__stop_dowload_button = Button(self.__top_frame, text="Przerwij")
 
         self.__download_frame = Frame(self.__top_frame)
         self.__current_app_downloading_label = Label(self.__download_frame, text="app name")
@@ -96,14 +97,18 @@ class View:
         self.__score_lab.pack()
         self.__score_value_lab.pack()
 
-    def set_visible_downloading_details(self, visible):
+    def switch_progressbar_visibility(self, visible):
         if visible:
             self.__download_frame.pack()
             self.__current_app_downloading_label.pack(side=LEFT, anchor=W, ipadx=4)
             self.__position_downloading_label.pack(side=RIGHT, anchor=E, ipadx=4)
             self.__downloading_pb.pack()
+            self.__stop_dowload_button.pack()
+            self.__download_button.forget()
         else:
             self.__download_frame.forget()
+            self.__stop_dowload_button.forget()
+            self.__download_button.pack()
 
     def on_click_listbox_item(self, event):
         selection = event.widget.curselection()
@@ -112,6 +117,15 @@ class View:
 
     def add_item_to_list(self, CVE_name):
         self.__listbox.insert(self.__listbox.size(), CVE_name)
+
+    def set_stop_downloading_function(self, function):
+        self.__stop_dowload_button.config(command=function)
+
+    def set_stop_button_enabled(self):
+        self.__stop_dowload_button['state'] = "disabled"
+
+    def set_stop_button_normal(self):
+        self.__stop_dowload_button['state'] = "normal"
 
     def set_download_function(self, function):
         self.__downloading_pb.pack()
@@ -123,6 +137,9 @@ class View:
 
     def update_progressbar(self):
         self.__downloading_pb['value'] += 100/len(self.__model.database)
+
+    def reset_progressbar(self):
+        self.__downloading_pb['value'] = 0
 
     def update_values(self, index):
         item = self.__model.values[index]
