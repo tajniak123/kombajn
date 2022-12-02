@@ -1,5 +1,5 @@
 import pandas
-from strings import KEY_VALUES, KEY_TIME
+from strings import KEY_VALUES, KEY_TIME, FILE_NOT_FOUND
 import time
 from nvdlib import searchCVE
 from strings import DATABASE_FILE_NAME, NIST_KEY
@@ -11,7 +11,7 @@ class Model:
         try:
             self.__database = pandas.read_excel(DATABASE_FILE_NAME)
         except FileNotFoundError:
-            print(f'Nie znaleziono pliku {DATABASE_FILE_NAME}.')
+            print(f'{FILE_NOT_FOUND} {DATABASE_FILE_NAME}.')
         self.__values = []
 
     @property

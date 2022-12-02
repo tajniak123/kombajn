@@ -23,7 +23,8 @@ class Controller:
         return self.__view
 
     def download_data(self):
-        self.__downloading_loop = threading.Thread(target=self.initialise_downloading_data)
+        self.__downloading_loop = threading.Thread(
+                target=self.initialise_downloading_data)
         self.__downloading_loop.daemon = True
         self.__downloading_loop.start()
 
@@ -42,7 +43,8 @@ class Controller:
             for i in range(len(self.__model.database)):
                 if self.__is_downloading_in_progress:
                     app_name = self.__model.database.iloc[i, 0]
-                    self.__view.update_download_notifications(app_name, f'{i}/{len(self.__model.database)}')
+                    self.__view.update_download_notifications(
+                            app_name, f'{i}/{len(self.__model.database)}')
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
                     for cve in searching_result[KEY_VALUES]:

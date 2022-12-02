@@ -71,7 +71,7 @@ class View:
         self.__downloading_pb = ttk.Progressbar(
                 self.__download_frame,
                 orient=HORIZONTAL,
-                length=DEFAULT_APP_WIDTH-2,
+                length=DEFAULT_APP_WIDTH,
                 mode='determinate',
                 )
 
