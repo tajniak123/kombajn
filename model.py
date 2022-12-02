@@ -8,7 +8,7 @@ from strings import DATABASE_FILE_NAME, NIST_KEY
 class Model:
     def __init__(self):
         self.__database = pandas.read_excel(DATABASE_FILE_NAME)
-        self.__values = {}
+        self.__values = []
 
     @property
     def database(self):
@@ -24,4 +24,3 @@ class Model:
         end_time = time.time()
         return {KEY_TIME: (end_time-start_time),
                 KEY_VALUES: answer_from_nist}
-

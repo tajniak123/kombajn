@@ -1,6 +1,7 @@
 import threading
 import time
 from strings import KEY_VALUES
+from item_model import ItemModel
 
 
 class Controller:
@@ -28,13 +29,11 @@ class Controller:
         for i in range(len(self.__model.database)):
             app_name = self.__model.database.iloc[i, 0]
             searching_result = self.__model.download_CVE_from_NIST(app_name)
-            if self.__model.values.get(app_name) is None:
-                self.__model.values[app_name] = []
-                self.__model.values[app_name].append(searching_result)
-            else:
-                self.__model.values[app_name].append(searching_result)
 
-            print(searching_result[KEY_VALUES])
+            for cve in searching_result[KEY_VALUES]:
+                item = ItemModel(item_id=len(self.__model.values), app_name=app_name, item=cve)
+                self.__model.values.append(item)
+                self.__view.add_item_to_list(item.item.id)
 
         end_time = time.time()
         print(end_time-start_time)

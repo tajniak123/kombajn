@@ -21,7 +21,7 @@ class View:
         self.__window_width = DEFAULT_APP_WIDTH
         self.__window_height = DEFAULT_APP_HEIGHT
         self.__window_size = f'{self.__window_width}x{self.__window_height}'
-        self.__values = {}
+        self.__values = []
         self.__severity_to_colors_converter = {
             SEVERITY_CRITICAL: Fore.LIGHTRED_EX,
             SEVERITY_HIGH: Fore.RED,
@@ -66,6 +66,9 @@ class View:
         self.__severity_value_lab.pack(fill=BOTH, expand=True)
         self.__score_value_lab.pack(fill=BOTH, expand=True)
         self.__description_value_lab.pack(fill=BOTH, expand=True)
+
+    def add_item_to_list(self, CVE_name):
+        self.__listbox.insert(self.__listbox.size(), CVE_name)
 
     def set_download_function(self, function):
         self.__download_button.config(command=function)
