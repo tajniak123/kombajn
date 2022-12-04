@@ -48,7 +48,11 @@ class Controller:
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
                     for cve in searching_result[KEY_VALUES]:
-                        item = ItemModel(item_id=len(self.__model.values), app_name=app_name, item=cve)
+                        item = ItemModel(
+                                item_id=len(self.__model.values),
+                                app_name=app_name,
+                                item=cve
+                                )
                         self.__model.values.append(item)
                         self.__view.add_item_to_list(item.item.id)
 
