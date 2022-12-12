@@ -76,8 +76,11 @@ class View:
                 )
 
         self.__left_frame = Frame(self.__root)
-        self.__listbox = Listbox(self.__left_frame, activestyle='dotbox')
-        self.__listbox.bind("<<ListboxSelect>>", self.on_click_listbox_item)
+        self.__treeview = ttk.Treeview(self.__left_frame)
+        self.__treeview.heading('#0', text='Aplikacje', anchor=W)
+        #self.__listbox = Listbox(self.__left_frame, activestyle='dotbox')
+        self.__treeview.bind("<<TreevievSelect>>", self.on_click_listbox_item)
+
 
         self.__details_frame = LabelFrame(
                 self.__root,
@@ -110,7 +113,7 @@ class View:
         self.__download_button.pack()
 
         self.__left_frame.pack(fill=Y, expand=True, side=LEFT, anchor=W)
-        self.__listbox.pack(fill=Y, expand=True)
+        self.__treeview.pack(fill=Y, expand=True)
 
         self.__details_frame.pack(fill=BOTH, side=RIGHT)
         self.__description_frame.pack(ipadx=4, ipady=4)
@@ -156,7 +159,7 @@ class View:
             self.update_values(selection[0])
 
     def add_item_to_list(self, CVE_name):
-        self.__listbox.insert(self.__listbox.size(), CVE_name)
+        self.__treeview.insert(self.__treeview.size(), CVE_name)
 
     def set_stop_downloading_function(self, function):
         self.__stop_dowload_button.config(command=function)
