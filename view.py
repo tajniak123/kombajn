@@ -1,3 +1,5 @@
+import tkinter
+
 from strings import (
                      FILE_NOT_FOUND,
                      DATABASE_FILE_NAME,
@@ -158,8 +160,8 @@ class View:
         if selection:
             self.update_values(selection[0])
 
-    def add_item_to_list(self, CVE_name):
-        self.__treeview.insert(self.__treeview.size(), CVE_name)
+    def add_item_to_list(self, APP_name, id):
+        self.__treeview.insert('', 'end' , text=APP_name, iid=id, open=False)
 
     def set_stop_downloading_function(self, function):
         self.__stop_dowload_button.config(command=function)

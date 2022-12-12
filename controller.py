@@ -36,6 +36,7 @@ class Controller:
         self.__is_downloading_in_progress = True
         self.__view.switch_progressbar_visibility(True)
         start_time = time.time()
+        numer = 0
 
         if self.__model.database is None:
             self.__view.error_message_box()
@@ -47,6 +48,7 @@ class Controller:
                             app_name, f'{i}/{len(self.__model.database)}')
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
+
                     for cve in searching_result[KEY_VALUES]:
                         item = ItemModel(
                                 item_id=len(self.__model.values),
@@ -54,8 +56,8 @@ class Controller:
                                 item=cve
                                 )
                         self.__model.values.append(item)
-                        self.__view.add_item_to_list(item.item.id)
-
+                        self.__view.add_item_to_list(item.app_name, numer)
+                        numer+=1
                     self.__view.update_progressbar()
                 else:
                     break
