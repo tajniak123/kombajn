@@ -33,12 +33,14 @@ class Controller:
         self.__view.set_stop_button_enabled()
 
     def initialise_downloading_data(self):
+        id_item = 0
+        id_app = 0
+        id_CVE = 0
+
         self.__is_downloading_in_progress = True
         self.__view.switch_progressbar_visibility(True)
         start_time = time.time()
-        idITEM=0
-        idAPP=0
-        idCVE=0
+
         if self.__model.database is None:
             self.__view.error_message_box()
         else:
@@ -50,22 +52,22 @@ class Controller:
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
 
-                    self.__view.add_item_to_list(f'[{len(searching_result[KEY_VALUES])}] {self.__model.database.iloc[i, 0]}', idITEM)
-                    idAPP = idITEM
-                    idITEM += 1
+                    self.__view.add_item_to_list(f'[{len(searching_result[KEY_VALUES])}] {self.__model.database.iloc[i, 0]}', id_item)
+                    id_app = id_item
+                    id_item += 1
 
                     if len(searching_result[KEY_VALUES]) > 0:
-                        idCVE=0
+                        id_CVE = 0
                         for cve in searching_result[KEY_VALUES]:
                             item = ItemModel(
-                                    item_id=idITEM,
+                                    item_id=id_item,
                                     app_name=app_name,
                                     item=cve)
-                            self.__model.values[idITEM] = item
-                            self.__view.add_item_to_list(item.item.id, idITEM)
-                            self.__view.move(idITEM, idAPP, idCVE)
-                            idCVE += 1
-                            idITEM += 1
+                            self.__model.values[id_item] = item
+                            self.__view.add_item_to_list(item.item.id, id_item)
+                            self.__view.move(id_item, id_app, id_CVE)
+                            id_CVE += 1
+                            id_item += 1
 
                     self.__view.update_progressbar()
                 else:
