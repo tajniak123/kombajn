@@ -49,6 +49,7 @@ class Controller:
                             app_name, f'{i}/{len(self.__model.database)}')
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
+
                     self.__view.add_item_to_list(f'[{len(searching_result[KEY_VALUES])}] {self.__model.database.iloc[i, 0]}', idITEM)
                     idAPP = idITEM
                     idITEM += 1
