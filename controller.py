@@ -62,9 +62,6 @@ class Controller:
                                     app_name=app_name,
                                     item=cve)
 
-                            kupa = item.item
-                            #print(kupa)
-                            self.__model.values[idITEM]
                             self.__model.values[idITEM] = item
                             self.__view.add_item_to_list(item.item.id, idITEM)
                             self.__view.move(idITEM, idAPP, idCVE)

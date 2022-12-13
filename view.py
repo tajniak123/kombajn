@@ -80,9 +80,7 @@ class View:
         self.__left_frame = Frame(self.__root)
         self.__treeview = ttk.Treeview(self.__left_frame)
         self.__treeview.heading('#0', text='Aplikacje', anchor=W)
-        #self.__listbox = Listbox(self.__left_frame, activestyle='dotbox')
         self.__treeview.bind("<Double-1>", self.on_click_listbox_item)
-
 
         self.__details_frame = LabelFrame(
                 self.__root,
@@ -157,12 +155,21 @@ class View:
 
     def on_click_listbox_item(self, event):
         item = self.__treeview.identify('item', event.x, event.y)
-        print(item)
         if item:
             self.update_values(int(item))
 
+    def update_values(self, index):
+        item = self.__model.values[index]
+        print(self.__model.values)
+        print(index)
+        self.__details_frame.configure(text=item.app_name)
+        self.__score_value_lab.configure(text=item.item.score[1])
+        self.__severity_value_lab.configure(text=item.item.score[2])
+        self.__description_value_lab.configure(
+                text=item.item.descriptions[0].value)
+
     def add_item_to_list(self, APP_name, id):
-        self.__treeview.insert('', 'end' , text=APP_name, iid=id, open=False)
+        self.__treeview.insert('', 'end', text=APP_name, iid=id, open=False)
 
     def move(self, idITEM, idAPP, idCVE):
         self.__treeview.move(idITEM, idAPP, idCVE)
@@ -189,14 +196,6 @@ class View:
 
     def reset_progressbar(self):
         self.__downloading_pb['value'] = 0
-
-    def update_values(self, index):
-        item = self.__model.values[index]
-        self.__details_frame.configure(text=item.app_name)
-        self.__score_value_lab.configure(text=item.item.score[1])
-        self.__severity_value_lab.configure(text=item.item.score[2])
-        self.__description_value_lab.configure(
-                text=item.item.descriptions[0].value)
 
     def run_view(self):
         self.__root.mainloop()
