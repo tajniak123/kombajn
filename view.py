@@ -160,8 +160,6 @@ class View:
 
     def update_values(self, index):
         item = self.__model.values[index]
-        print(self.__model.values)
-        print(index)
         self.__details_frame.configure(text=item.app_name)
         self.__score_value_lab.configure(text=item.item.score[1])
         self.__severity_value_lab.configure(text=item.item.score[2])
