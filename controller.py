@@ -39,7 +39,6 @@ class Controller:
         idITEM=0
         idAPP=0
         idCVE=0
-
         if self.__model.database is None:
             self.__view.error_message_box()
         else:
@@ -50,7 +49,7 @@ class Controller:
                             app_name, f'{i}/{len(self.__model.database)}')
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
-                    self.__view.add_item_to_list(self.__model.database.iloc[i, 0], idITEM)
+                    self.__view.add_item_to_list(f'[{len(searching_result[KEY_VALUES])}] {self.__model.database.iloc[i, 0]}', idITEM)
                     idAPP = idITEM
                     idITEM += 1
 
@@ -61,17 +60,12 @@ class Controller:
                                     item_id=idITEM,
                                     app_name=app_name,
                                     item=cve)
-
                             self.__model.values[idITEM] = item
                             self.__view.add_item_to_list(item.item.id, idITEM)
                             self.__view.move(idITEM, idAPP, idCVE)
-                            idCVE+=1
+                            idCVE += 1
                             idITEM += 1
 
-
-
-                        #print(item.item.id)
-                        #print()
                     self.__view.update_progressbar()
                 else:
                     break
