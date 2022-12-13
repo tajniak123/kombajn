@@ -12,7 +12,7 @@ class Model:
             self.__database = pandas.read_excel(DATABASE_FILE_NAME)
         except FileNotFoundError:
             print(f'{FILE_NOT_FOUND} {DATABASE_FILE_NAME}.')
-        self.__values = []
+        self.__values = {}
 
     @property
     def database(self):

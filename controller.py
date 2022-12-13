@@ -36,7 +36,9 @@ class Controller:
         self.__is_downloading_in_progress = True
         self.__view.switch_progressbar_visibility(True)
         start_time = time.time()
-        numer = 0
+        idITEM=0
+        idAPP=0
+        idCVE=0
 
         if self.__model.database is None:
             self.__view.error_message_box()
@@ -48,16 +50,31 @@ class Controller:
                             app_name, f'{i}/{len(self.__model.database)}')
                     searching_result = self.__model.download_CVE_from_NIST(app_name)
 
+                    self.__view.add_item_to_list(self.__model.database.iloc[i, 0], idITEM)
+                    idAPP = idITEM
+                    idITEM += 1
 
-                    for cve in searching_result[KEY_VALUES]:
-                        item = ItemModel(
-                                item_id=len(self.__model.values),
-                                app_name=app_name,
-                                item=cve
-                                )
-                        self.__model.values.append(item)
-                        self.__view.add_item_to_list(item.app_name, numer)
-                        numer+=1
+                    if len(searching_result[KEY_VALUES]) > 0:
+                        idCVE=0
+                        for cve in searching_result[KEY_VALUES]:
+                            item = ItemModel(
+                                    item_id=idITEM,
+                                    app_name=app_name,
+                                    item=cve)
+
+                            kupa = item.item
+                            #print(kupa)
+                            self.__model.values[idITEM]
+                            self.__model.values[idITEM] = item
+                            self.__view.add_item_to_list(item.item.id, idITEM)
+                            self.__view.move(idITEM, idAPP, idCVE)
+                            idCVE+=1
+                            idITEM += 1
+
+
+
+                        #print(item.item.id)
+                        #print()
                     self.__view.update_progressbar()
                 else:
                     break

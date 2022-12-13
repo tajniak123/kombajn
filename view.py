@@ -81,7 +81,7 @@ class View:
         self.__treeview = ttk.Treeview(self.__left_frame)
         self.__treeview.heading('#0', text='Aplikacje', anchor=W)
         #self.__listbox = Listbox(self.__left_frame, activestyle='dotbox')
-        self.__treeview.bind("<<TreevievSelect>>", self.on_click_listbox_item)
+        self.__treeview.bind("<Double-1>", self.on_click_listbox_item)
 
 
         self.__details_frame = LabelFrame(
@@ -156,12 +156,16 @@ class View:
                 )
 
     def on_click_listbox_item(self, event):
-        selection = event.widget.curselection()
-        if selection:
-            self.update_values(selection[0])
+        item = self.__treeview.identify('item', event.x, event.y)
+        print(item)
+        if item:
+            self.update_values(int(item))
 
     def add_item_to_list(self, APP_name, id):
         self.__treeview.insert('', 'end' , text=APP_name, iid=id, open=False)
+
+    def move(self, idITEM, idAPP, idCVE):
+        self.__treeview.move(idITEM, idAPP, idCVE)
 
     def set_stop_downloading_function(self, function):
         self.__stop_dowload_button.config(command=function)
