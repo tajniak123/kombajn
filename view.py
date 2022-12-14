@@ -50,7 +50,7 @@ class View:
             SEVERITY_CRITICAL: Fore.LIGHTRED_EX,
             SEVERITY_HIGH: Fore.RED,
             SEVERITY_MEDIUM: Fore.YELLOW,
-            SEVERITY_LOW: Fore.GREEN,
+            SEVERITY_LOW: Fore.YELLOW,
             None: Fore.MAGENTA
         }
         self.__root = Tk()
@@ -161,8 +161,18 @@ class View:
     def update_values(self, index):
         item = self.__model.values[index]
         self.__details_frame.configure(text=item.app_name)
-        self.__score_value_lab.configure(text=item.item.score[1])
-        self.__severity_value_lab.configure(text=item.item.score[2])
+        if item.item.score[1] >= 9:
+            self.__score_value_lab.configure(text=item.item.score[1], bg='#2B2B2B', fg='#FFFFFF')
+            self.__severity_value_lab.configure(text=item.item.score[2], bg='#2B2B2B', fg='#FFFFFF')
+        elif item.item.score[1] >= 7 and item.item.score[1] < 9:
+            self.__score_value_lab.configure(text=item.item.score[1], bg='red', fg='#FFFFFF')
+            self.__severity_value_lab.configure(text=item.item.score[2], bg='red', fg='#FFFFFF')
+        elif item.item.score[1] >= 4 and item.item.score[1] < 7:
+            self.__score_value_lab.configure(text=item.item.score[1], bg='#FFA500', fg='#000000')
+            self.__severity_value_lab.configure(text=item.item.score[2], bg='#FFA500', fg='#000000')
+        elif item.item.score[1] > 0 and item.item.score[1] < 4:
+            self.__score_value_lab.configure(text=item.item.score[1], bg='yellow', fg='#000000')
+            self.__severity_value_lab.configure(text=item.item.score[2], bg='yellow', fg='#000000')
         self.__description_value_lab.configure(
                 text=item.item.descriptions[0].value)
 
