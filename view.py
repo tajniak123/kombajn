@@ -36,6 +36,15 @@ from values import (
         DETAIL_FRAME_WIDTH,
         )
 
+from colors import (
+        BLACK_BG,
+        RED_BG,
+        ORANGE_BG,
+        YELLOW_BG,
+        WHITE_FG,
+        BLACK_FG,
+        )
+
 
 class View:
     def __init__(self, model):
@@ -162,17 +171,17 @@ class View:
         item = self.__model.values[index]
         self.__details_frame.configure(text=item.app_name)
         if item.item.score[1] >= 9:
-            self.__score_value_lab.configure(text=item.item.score[1], bg='#2B2B2B', fg='#FFFFFF')
-            self.__severity_value_lab.configure(text=item.item.score[2], bg='#2B2B2B', fg='#FFFFFF')
+            self.__score_value_lab.configure(text=item.item.score[1], bg=BLACK_BG, fg=WHITE_FG)
+            self.__severity_value_lab.configure(text=item.item.score[2], bg=BLACK_BG, fg=WHITE_FG)
         elif item.item.score[1] >= 7 and item.item.score[1] < 9:
-            self.__score_value_lab.configure(text=item.item.score[1], bg='red', fg='#FFFFFF')
-            self.__severity_value_lab.configure(text=item.item.score[2], bg='red', fg='#FFFFFF')
+            self.__score_value_lab.configure(text=item.item.score[1], bg=RED_BG, fg=WHITE_FG)
+            self.__severity_value_lab.configure(text=item.item.score[2], bg=RED_BG, fg=WHITE_FG)
         elif item.item.score[1] >= 4 and item.item.score[1] < 7:
-            self.__score_value_lab.configure(text=item.item.score[1], bg='#FFA500', fg='#000000')
-            self.__severity_value_lab.configure(text=item.item.score[2], bg='#FFA500', fg='#000000')
+            self.__score_value_lab.configure(text=item.item.score[1], bg=ORANGE_BG, fg=BLACK_FG)
+            self.__severity_value_lab.configure(text=item.item.score[2], bg=ORANGE_BG, fg=BLACK_FG)
         elif item.item.score[1] > 0 and item.item.score[1] < 4:
-            self.__score_value_lab.configure(text=item.item.score[1], bg='yellow', fg='#000000')
-            self.__severity_value_lab.configure(text=item.item.score[2], bg='yellow', fg='#000000')
+            self.__score_value_lab.configure(text=item.item.score[1], bg=YELLOW_BG, fg=BLACK_FG)
+            self.__severity_value_lab.configure(text=item.item.score[2], bg=YELLOW_BG, fg=BLACK_FG)
         self.__description_value_lab.configure(
                 text=item.item.descriptions[0].value)
 
