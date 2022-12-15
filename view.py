@@ -16,7 +16,7 @@ from strings import (
 from colorama import Fore
 from tkinter import (
         Tk,
-        Listbox,
+        Text,
         Label,
         BOTH,
         LEFT,
@@ -183,7 +183,7 @@ class View:
             self.__score_value_lab.configure(text=item.item.score[1], bg=YELLOW_BG, fg=BLACK_FG)
             self.__severity_value_lab.configure(text=item.item.score[2], bg=YELLOW_BG, fg=BLACK_FG)
         self.__description_value_lab.configure(
-                text=item.item.descriptions[0].value)
+                text=item.item.descriptions[0].value, justify='center')
 
     def add_item_to_list(self, APP_name, id):
         self.__treeview.insert('', 'end', text=APP_name, iid=id, open=False)
